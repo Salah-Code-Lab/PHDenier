@@ -1,0 +1,46 @@
+;
+; PHDenier.inf
+; Process Handle Injection Defense Driver
+;
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = System
+ClassGuid   = {4d36e97d-e325-11ce-bfc1-08002be10318}
+Provider    = %ProviderName%
+DriverVer   = 06/12/2026,19.0.23.250
+CatalogFile = PHDenier.cat
+PnPLockdown = 1
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[SourceDisksNames]
+1 = %DiskName%,,,
+
+[SourceDisksFiles]
+PHDenier.sys = 1,,
+
+[DefaultInstall.NTamd64]
+CopyFiles = PHDenier.CopyFiles
+
+[PHDenier.CopyFiles]
+PHDenier.sys
+
+[DefaultInstall.NTamd64.Services]
+AddService = PHDenier,0x00000002,PHDenier.Service.Install
+
+[PHDenier.Service.Install]
+DisplayName    = %ServiceDisplayName%
+Description    = %ServiceDescription%
+ServiceType    = 1
+StartType      = 1
+ErrorControl   = 1
+ServiceBinary  = %12%\PHDenier.sys
+LoadOrderGroup = "Base"
+
+[Strings]
+ProviderName       = "PHDenier Protection Project"
+ServiceDisplayName = "Process Hollowing Denier Engine"
+ServiceDescription = "Kernel-mode handle interceptor protecting critical system processes from hollowing."
+DiskName           = "PHDenier Installation Media"
